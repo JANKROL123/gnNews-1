@@ -15,5 +15,5 @@ export const articleSlice = createSlice({
   },
 });
 
-export const { setList, setTiles } = counterSlice.actions;
+export const { setList, setTiles } = articleSlice.actions;
 export default articleSlice.reducer;
