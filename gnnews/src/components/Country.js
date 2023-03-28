@@ -13,14 +13,18 @@ function Country() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    setNews([]);
+    setLoading(true);
     axios
       .get(
         `https://newsapi.org/v2/top-headlines?country=${params.country}&apiKey=b77bf23d4ff14487a10d34a0ce1f4218`
       )
-      .then((res) => setNews(res.data.articles))
+      .then((res) => {
+        setNews(res.data.articles);
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [params]);
   return (
     <div>
       {news.length > 0 ? (
