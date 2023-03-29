@@ -3,11 +3,20 @@ import isoCodes from "./countries/iso-codes";
 import { Link, Routes, Route } from "react-router-dom";
 import Country from "./components/Country";
 import Home from "./components/Home";
-import { Layout } from "antd";
+import { Layout, Menu, Switch } from "antd";
 import { Footer, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { Menu } from "antd";
+import { changeDisplay } from "./redux/listDisplaySlice";
+import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import Title from "antd/es/typography/Title";
 function App() {
+  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    setInterval(() => setDate(new Date()), 1000);
+  }, []);
+
+  const dispatch = useDispatch();
   function getItem(label, key, icon, children, type) {
     return {
       key,
@@ -17,7 +26,6 @@ function App() {
       type,
     };
   }
-
   const menuItems = Array.from(isoCodes).map((n) =>
     getItem(
       n[1],
@@ -38,6 +46,14 @@ function App() {
         <Link to="/">
           <div id="logo">gnNews</div>
         </Link>
+        <div id="switchDisplay">
+          <span>Choose articles display</span>
+          <Switch
+            checkedChildren="tiles"
+            unCheckedChildren="tiles"
+            onChange={() => dispatch(changeDisplay())}
+          />
+        </div>
       </Header>
       <Layout>
         <Sider style={{ overflow: "auto" }}>
@@ -49,7 +65,9 @@ function App() {
         </Routes>
       </Layout>
       <Footer>
-        <div>Time</div>
+        <Title level={1} style={{ color: "white" }}>
+          {date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()}
+        </Title>
         <div>Articles published</div>
         <div>&copy; gnNews 2023</div>
       </Footer>

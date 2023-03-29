@@ -6,6 +6,8 @@ body {
     .App {
         header {
             display: flex;
+            justify-content: space-between;
+            color: white;
             #logo {
                 cursor: pointer;
                 user-select: none;
@@ -14,12 +16,20 @@ body {
                 font-weight: bolder;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
+            #switchDisplay {
+                display: flex;
+                gap: 1em;
+                align-items: center;
+            }
         }
         .country {
             padding: 1em;
             .article {
                 cursor: pointer;
                 user-select: none;
+            }
+            .ant-card-meta-title {
+                white-space: pre-line;
             }
         }
         footer {

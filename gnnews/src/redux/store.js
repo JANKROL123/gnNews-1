@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import articleReducer from "./reducers/articleReducer";
-const store = configureStore({
+import listDisplayReducer from "./listDisplaySlice";
+import articlesReducer from "./articlesSlice";
+export default configureStore({
   reducer: {
-    articles: articleReducer,
+    listDisplay: listDisplayReducer,
+    articles: articlesReducer,
   },
 });
-export default store;
