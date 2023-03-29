@@ -18,17 +18,11 @@ function Country() {
     setError(null);
     setNews([]);
     setLoading(true);
-    const options = {
-      method: "GET",
-      url: "https://api.newscatcherapi.com/v2/latest_headlines",
-      params: { countries: params.country.toUpperCase() },
-      headers: {
-        "x-api-key": "bm85hyqV4lSOHdssYQJ-9o4Tp_8-fODHO7xPlqhGMXI",
-      },
-    };
     axios
-      .request(options)
-      .then((res) => setNews(res.data.articles))
+      .get(
+        `https://newsdata.io/api/1/news?country=${params.country}&apikey=pub_193677db68a25058827e049d8ff3731f8d3c4`
+      )
+      .then((res) => setNews(res.data.results))
       .catch((error) => {
         setError(error.message);
       })
@@ -40,8 +34,8 @@ function Country() {
         <Content>
           <Title level={1}>Top news from {isoCodes.get(params.country)}</Title>
           <List itemLayout="vertical">
-            {news.map((article) => (
-              <List.Item key={article._id}>
+            {news.map((article, idx) => (
+              <List.Item key={idx}>
                 <Article data={article} />
               </List.Item>
             ))}

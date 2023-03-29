@@ -40,7 +40,7 @@ function App() {
         </Link>
       </Header>
       <Layout>
-        <Sider>
+        <Sider style={{ overflow: "auto" }}>
           <Menu mode="inline" theme="dark" items={menuItems} />
         </Sider>
         <Routes>
