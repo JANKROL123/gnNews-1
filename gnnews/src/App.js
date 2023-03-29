@@ -33,8 +33,12 @@ function App() {
     )
   );
   return (
-    <Layout>
-      <Header>gnNews</Header>
+    <Layout className="App">
+      <Header>
+        <Link to="/">
+          <div id="logo">gnNews</div>
+        </Link>
+      </Header>
       <Layout>
         <Sider>
           <Menu mode="inline" theme="dark" items={menuItems} />
@@ -44,7 +48,11 @@ function App() {
           <Route path="/:country" element={<Country />} />
         </Routes>
       </Layout>
-      <Footer>Footer</Footer>
+      <Footer>
+        <div>Time</div>
+        <div>Articles published</div>
+        <div>&copy; gnNews 2023</div>
+      </Footer>
     </Layout>
   );
 }
