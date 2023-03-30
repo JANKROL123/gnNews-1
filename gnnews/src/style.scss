@@ -22,6 +22,10 @@ body {
                 align-items: center;
             }
         }
+        .ant-layout-sider-children {
+            height: 100%;
+            overflow: auto;
+          }
         .country {
             padding: 1em;
             .article {
@@ -38,3 +42,21 @@ body {
         }
     }   
 }
+::-webkit-scrollbar {
+    width: 20px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #15325b; 
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #15417e; 
+    cursor: pointer;
+  }

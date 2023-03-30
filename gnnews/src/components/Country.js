@@ -7,21 +7,28 @@ import isoCodes from "../countries/iso-codes";
 import Error from "./Error";
 import Loading from "./Loading";
 import Title from "antd/es/typography/Title";
-import { List } from "antd";
+import { List, Pagination } from "antd";
 import Article from "./Article";
 import { useDispatch, useSelector } from "react-redux";
 import { addArticles } from "../redux/articlesSlice";
+import api_key from "../api_key/api_key";
 function Country() {
   const params = useParams();
   const { isList } = useSelector((state) => state.listDisplay);
   const myArticles = useSelector((state) => state.articles).myArticles.filter(
-    (elem) => elem.code === params.country
+    (elem) => elem.country.toLowerCase() === params.country
   );
   const dispatch = useDispatch();
   const [country, setCountry] = useState(params.country);
   const [news, setNews] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
     setCountry(params.country);
   }, [params]);
@@ -30,19 +37,22 @@ function Country() {
     setNews([]);
     setLoading(true);
     if (myArticles.length === 0) {
+      const options = {
+        method: "GET",
+        url: "https://api.newscatcherapi.com/v2/latest_headlines",
+        params: { countries: params.country.toUpperCase() },
+        headers: {
+          "x-api-key": api_key,
+        },
+      };
       axios
-        .get(
-          `https://newsdata.io/api/1/news?country=${params.country}&apikey=pub_193677db68a25058827e049d8ff3731f8d3c4`
-        )
+        .request(options)
         .then((res) => {
-          const data = res.data.results.map((elem) => ({
-            ...elem,
-            code: params.country,
-          }));
-          setNews(data);
-          dispatch(addArticles(data));
+          setNews(res.data.articles);
+          dispatch(addArticles(res.data.articles));
+          console.log(res.data.articles[0]);
         })
-        .catch((error) => {
+        .catch((err) => {
           setError(error.message);
         })
         .finally(() => setLoading(false));
@@ -55,17 +65,30 @@ function Country() {
     <div className="country">
       {news.length > 0 ? (
         <Content>
-          <Title level={1}>Top news from {isoCodes.get(params.country)}</Title>
-          <List
-            grid={!isList ? { gutter: 16, column: 4 } : null}
-            itemLayout={isList ? "vertical" : "horizontal"}
-            dataSource={news}
-            renderItem={(article) => (
-              <List.Item>
-                <Article data={article} />
-              </List.Item>
-            )}
-          />
+          <Title style={{ textAlign: "center" }} level={1}>
+            Top news from {isoCodes.get(params.country)}
+          </Title>
+          <>
+            <List
+              pagination={isList ? { pageSize: 4 } : null}
+              grid={!isList ? { gutter: 16, md: 1, lg: 2, xl: 3 } : null}
+              itemLayout={isList ? "vertical" : "horizontal"}
+              dataSource={news}
+              renderItem={(article) => (
+                <List.Item>
+                  <Article data={article} style={{ border: "5px solid red" }} />
+                </List.Item>
+              )}
+            />
+            {!isList ? (
+              <Pagination
+                current={currentPage}
+                pageSize={6}
+                total={news.length}
+                onChange={() => onPageChange()}
+              />
+            ) : null}
+          </>
         </Content>
       ) : null}
       {error ? <Error msg={error} /> : null}

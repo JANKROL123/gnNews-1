@@ -3,31 +3,42 @@ import { Card } from "antd";
 import { Popover } from "antd";
 import { Image } from "antd";
 import { useSelector } from "react-redux";
+import Title from "antd/es/typography/Title";
 function Article({ data }) {
   const { isList } = useSelector((state) => state.listDisplay);
   return (
     <Popover
-      title={`By: ${
-        data.creator && data.creator.length > 0 ? data.creator[0] : "Unknown"
-      }`}
+      overlayStyle={{
+        width: "40vw",
+        backgroundColor: "3ba1ff",
+      }}
+      title={`By: ${data.author}`}
       content={
         <div>
-          <div>{data.description}</div>
+          <div>{data.summary}</div>
           <strong>Visit article: </strong>
           <a target="_blank" rel="noreferrer" href={data.link}>
-            link
+            {data.clean_url}
           </a>
         </div>
       }
     >
-      <Card className="article" title={data.title}>
+      <Card
+        className="article"
+        style={{
+          height: isList ? "20vh" : "50vh",
+          width: isList ? "70vw" : "auto",
+          backgroundColor: "#b6e3fb",
+        }}
+      >
+        <h1 style={{ whiteSpace: "normal" }}>{data.title}</h1>
         <div>
-          <i>Source: {data.source_id}</i>
+          <i>Source: {data.rights}</i>
         </div>
         <div>
-          <i>Published: {data.pubDate.slice(0, 10)}</i>
+          <i>Published: {data.published_date.slice(0, 10)}</i>
         </div>
-        {!isList && data.image_url ? <Image src={data.image_url} /> : null}
+        {!isList && data.media ? <Image src={data.media} /> : null}
       </Card>
     </Popover>
   );

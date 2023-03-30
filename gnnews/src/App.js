@@ -55,9 +55,18 @@ function App() {
           />
         </div>
       </Header>
-      <Layout>
-        <Sider style={{ overflow: "auto" }}>
-          <Menu mode="inline" theme="dark" items={menuItems} />
+      <Layout style={{ backgroundColor: "#8dcff9" }}>
+        <Sider>
+          <Menu
+            mode="inline"
+            theme="dark"
+            items={menuItems}
+            style={{ height: 700, overflowY: "scroll" }}
+            scrollbar={{
+              trackStyle: { backgroundColor: "#f1f1f1" },
+              thumbStyle: { backgroundColor: "#1890ff", borderRadius: "2px" },
+            }}
+          />
         </Sider>
         <Routes>
           <Route path="/" element={<Home />} />
