@@ -1,5 +1,5 @@
 const isoCodes = new Map([
-  ["ae", "United Arab Emirates"],
+  ["ae", "United Emirates"],
   ["ar", "Argentina"],
   ["at", "Austria"],
   ["au", "Australia"],

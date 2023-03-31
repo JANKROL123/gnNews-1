@@ -1,5 +1,6 @@
 import React from "react";
+import { Spin } from "antd";
 function Loading() {
-  return <div>Loading</div>;
+  return <Spin size="large" />;
 }
 export default Loading;

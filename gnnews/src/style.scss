@@ -22,6 +22,19 @@ body {
                 align-items: center;
             }
         }
+        #homeContent {
+            padding: 1em;
+            h1 {
+                text-align: center;
+            }
+            .homeList {
+                padding-top: 1em;
+                padding-bottom: 1em;
+                display: flex;
+                flex-direction: column;
+                gap: 0.7em;
+            }
+        }
         .ant-layout-sider-children {
             height: 100%;
             overflow: auto;
@@ -39,6 +52,16 @@ body {
         footer {
             background-color: #001529;
             color: white;
+            #footerWrapper {
+                display: flex;
+                > * {
+                    flex: 1;
+                    height: 7vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            } 
         }
     }   
 }

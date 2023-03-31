@@ -1,5 +1,6 @@
 import React from "react";
-function Error(msg) {
-  return <div>Error</div>;
+import { Result } from "antd";
+function Error({ msg }) {
+  return <Result status="error" title="Error" subTitle={msg} />;
 }
 export default Error;

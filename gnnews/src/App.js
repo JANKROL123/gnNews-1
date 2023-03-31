@@ -3,19 +3,24 @@ import isoCodes from "./countries/iso-codes";
 import { Link, Routes, Route } from "react-router-dom";
 import Country from "./components/Country";
 import Home from "./components/Home";
-import { Layout, Menu, Switch } from "antd";
+import { Button, Layout, Menu, message, Switch } from "antd";
 import { Footer, Header } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { changeDisplay } from "./redux/listDisplaySlice";
 import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import Title from "antd/es/typography/Title";
+import popupMessage from "./popup_message/popup_message";
 function App() {
   const [date, setDate] = useState(new Date());
+  const [articlesNumber, setArticlesNumber] = useState(0);
   useEffect(() => {
     setInterval(() => setDate(new Date()), 1000);
   }, []);
-
+  const toLocalteStringObject = {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  };
   const dispatch = useDispatch();
   function getItem(label, key, icon, children, type) {
     return {
@@ -54,6 +59,11 @@ function App() {
             onChange={() => dispatch(changeDisplay())}
           />
         </div>
+        <div>
+          <Button type="primary" onClick={() => message.info(popupMessage)}>
+            Popup
+          </Button>
+        </div>
       </Header>
       <Layout style={{ backgroundColor: "#8dcff9" }}>
         <Sider>
@@ -69,16 +79,30 @@ function App() {
           />
         </Sider>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/:country" element={<Country />} />
+          <Route
+            path="/"
+            element={<Home setArticlesNumber={setArticlesNumber} />}
+          />
+          <Route
+            path="/:country"
+            element={<Country setArticlesNumber={setArticlesNumber} />}
+          />
         </Routes>
       </Layout>
       <Footer>
-        <Title level={1} style={{ color: "white" }}>
-          {date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()}
-        </Title>
-        <div>Articles published</div>
-        <div>&copy; gnNews 2023</div>
+        <div id="footerWrapper">
+          <Title level={3} style={{ color: "white" }}>
+            Articles published for this country: {articlesNumber}
+          </Title>
+          <div>&copy; gnNews 2023 from Newscatcher</div>
+          <Title level={1} style={{ color: "white" }}>
+            {date.getHours().toLocaleString("en-US", toLocalteStringObject) +
+              ":" +
+              date.getMinutes().toLocaleString("en-US", toLocalteStringObject) +
+              ":" +
+              date.getSeconds().toLocaleString("en-US", toLocalteStringObject)}
+          </Title>
+        </div>
       </Footer>
     </Layout>
   );

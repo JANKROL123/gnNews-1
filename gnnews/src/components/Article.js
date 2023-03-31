@@ -1,9 +1,6 @@
 import React from "react";
-import { Card } from "antd";
-import { Popover } from "antd";
-import { Image } from "antd";
+import { Card, Image, Popover } from "antd";
 import { useSelector } from "react-redux";
-import Title from "antd/es/typography/Title";
 function Article({ data }) {
   const { isList } = useSelector((state) => state.listDisplay);
   return (
@@ -29,6 +26,7 @@ function Article({ data }) {
           height: isList ? "20vh" : "50vh",
           width: isList ? "70vw" : "auto",
           backgroundColor: "#b6e3fb",
+          overflow: "hidden",
         }}
       >
         <h1 style={{ whiteSpace: "normal" }}>{data.title}</h1>
